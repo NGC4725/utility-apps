@@ -9,7 +9,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
-  SharedSelection,
 } from "@nextui-org/react";
 import Markdown from "react-markdown";
 import { PluggableList } from "react-markdown/lib";
@@ -21,7 +20,7 @@ import docx from "remark-docx";
 import pdf from "remark-pdf";
 import { saveAs } from "file-saver";
 
-export const MarkDownPage = () => {
+export default function MarkDownPage() {
   /**
    * Export Options
    */
@@ -34,12 +33,13 @@ export const MarkDownPage = () => {
    */
   const allowedPlugins = [
     { key: "gfm", label: "GFM", description: "GitHub flavored markdown" },
-    // { key: "math", label: "Math", description: "Support a math syntax" },
+    { key: "math", label: "Math", description: "Support a math syntax" },
+    { key: "math2", label: "Math2", description: "Support a math syntax" },
   ];
   /**
    * Markdown Docx Processor
    */
-  const [selectedPlugins, setSelectedPlugins] = React.useState<Set<string>>(
+  const [selectedPlugins, setSelectedPlugins] = React.useState<any>(
     new Set([])
   );
   /**
@@ -76,22 +76,6 @@ export const MarkDownPage = () => {
     [selectedPlugins]
   );
 
-  const handleSelectionChange = React.useCallback((keys: SharedSelection) => {
-    console.log(keys);
-    if (keys === "all") {
-      // Handle 'all' selection
-      setSelectedPlugins(new Set(["all"]));
-    } else if (typeof keys === "object") {
-      // Handle object selection
-      const newKeys = new Set<string>();
-      if (keys.anchorKey) newKeys.add(keys.anchorKey);
-      if (keys.currentKey) newKeys.add(keys.currentKey);
-      setSelectedPlugins(newKeys);
-    } else {
-      // Handle string selection
-      setSelectedPlugins(new Set([keys]));
-    }
-  }, []);
 
   const exportToFile = (option: React.Key) => {
     (async (opt) => {
@@ -121,7 +105,6 @@ export const MarkDownPage = () => {
               </Button>
             </DropdownTrigger>
             <DropdownMenu
-              aria-label="Multiple selection example"
               variant="flat"
               closeOnSelect={false}
               selectionMode="multiple"
@@ -185,4 +168,3 @@ export const MarkDownPage = () => {
   );
 };
 
-export { MarkDownPage as default };

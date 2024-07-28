@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Skeleton } from "@nextui-org/react";
-import { Remark } from "react-remark";
 
 export default function AboutPage() {
   const [data, setData] = useState<string>("");
